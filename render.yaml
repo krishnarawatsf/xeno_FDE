@@ -1,0 +1,43 @@
+# Deploy backend + channel service on Render (free tier).
+# Connect this repo at https://dashboard.render.com/select-repo?type=blueprint
+#
+# Required manual env var:
+#   DATABASE_URL — Supabase transaction pooler URI (port 6543)
+
+services:
+  - type: web
+    name: xeno-crm-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CHANNEL_SERVICE_URL
+        fromService:
+          name: xeno-channel-service
+          type: web
+          property: host
+      - key: CRM_CALLBACK_URL
+        fromService:
+          name: xeno-crm-backend
+          type: web
+          property: host
+      - key: OPENAI_API_KEY
+        sync: false
+
+  - type: web
+    name: xeno-channel-service
+    runtime: docker
+    dockerfilePath: channel-service/Dockerfile
+    dockerContext: channel-service
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: CRM_CALLBACK_URL
+        fromService:
+          name: xeno-crm-backend
+          type: web
+          property: host
