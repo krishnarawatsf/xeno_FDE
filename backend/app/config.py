@@ -14,9 +14,17 @@ class Settings(BaseSettings):
     channel_service_url: str = "http://localhost:8001"
     crm_callback_url: str = "http://localhost:8000"
     openai_api_key: str = ""
+    cors_origins: str = "http://localhost:3000,https://xeno-fde-ten.vercel.app"
+    environment: str = "development"
 
     class Config:
         env_file = ".env"
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        if self.cors_origins.strip() == "*":
+            return ["*"]
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
     @property
     def normalized_channel_service_url(self) -> str:

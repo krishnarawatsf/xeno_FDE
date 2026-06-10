@@ -15,6 +15,10 @@ services:
     envVars:
       - key: DATABASE_URL
         sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://xeno-fde-ten.vercel.app
       - key: CHANNEL_SERVICE_URL
         fromService:
           name: xeno-channel-service
