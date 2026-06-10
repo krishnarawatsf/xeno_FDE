@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 def _normalize_service_url(url: str) -> str:
@@ -17,8 +17,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000,https://xeno-fde-ten.vercel.app"
     environment: str = "development"
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
     @property
     def cors_origin_list(self) -> list[str]:

@@ -1,5 +1,6 @@
 """Rule-based and AI-assisted segmentation engine."""
 
+import re
 from datetime import datetime, timedelta
 from uuid import UUID
 
@@ -49,7 +50,7 @@ def _apply_sql_segment(db: Session, sql: str) -> list[Customer]:
 
     forbidden = ["insert", "update", "delete", "drop", "alter", "truncate", "grant", "revoke"]
     for word in forbidden:
-        if word in normalized:
+        if re.search(r"\b" + word + r"\b", normalized):
             raise ValueError(f"Forbidden SQL keyword: {word}")
 
     result = db.execute(text(sql))
