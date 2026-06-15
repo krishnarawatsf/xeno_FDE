@@ -1,4 +1,4 @@
-# Xeno AI-Native Mini CRM
+AI-Native Mini CRM
 
 An **AI Campaign Operator for D2C brands** — helps decide who to talk to, what to say, and how to reach shoppers across WhatsApp, SMS, Email, and RCS.
 
